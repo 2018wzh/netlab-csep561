@@ -31,14 +31,14 @@ class Firewall(object):
         rule1.priority = 100
         rule1.match.dl_type = 0x800  # IPv4 packets
         rule1.match.nw_proto = 1  # ICMP protocol
-        rule1.actions.append(of.ofp_action_output(port=of.OFPP_NORMAL))
+        rule1.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
         self.connection.send(rule1)
 
         # Rule2: any,any,arp,accept
         rule2 = of.ofp_flow_mod()
         rule2.priority = 90
         rule2.match.dl_type = 0x806  # ARP packets
-        rule2.actions.append(of.ofp_action_output(port=of.OFPP_NORMAL))
+        rule2.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
         self.connection.send(rule2)
 
         # Rule3: anyv4,anyv4,*,drop
