@@ -61,24 +61,214 @@ class Part3Controller(object):
             exit(1)
 
     def s1_setup(self):
-        # put switch 1 rules here
-        pass
+        # Flood packets from h10
+        rule1 = of.ofp_flow_mod()
+        rule1.priority = 100
+        rule1.match.nw_src = IPAddr(IPS["h10"])
+        rule1.match.dl_type = 0x800  # IPv4 packets
+        rule1.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule1)
+        # Flood packets from h20
+        rule2 = of.ofp_flow_mod()
+        rule2.priority = 100
+        rule2.match.nw_src = IPAddr(IPS["h20"])
+        rule2.match.dl_type = 0x800  # IPv4 packets
+        rule2.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule2)
+        # Flood packets from h30
+        rule3 = of.ofp_flow_mod()
+        rule3.priority = 100
+        rule3.match.nw_src = IPAddr(IPS["h30"])
+        rule3.match.dl_type = 0x800  # IPv4 packets
+        rule3.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule3)
+        # Flood packets from serv1
+        rule4 = of.ofp_flow_mod()
+        rule4.priority = 100
+        rule4.match.nw_src = IPAddr(IPS["serv1"])
+        rule4.match.dl_type = 0x800  # IPv4 packets
+        rule4.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule4)
+        # Drop ICMP packets from hnotrust
+        rule5 = of.ofp_flow_mod()
+        rule5.priority = 200
+        rule5.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule5.match.dl_type = 0x800  # IPv4 packets
+        rule5.match.nw_proto = 1  # ICMP protocol
+        # No actions = drop
+        self.connection.send(rule5)
+        # Allow other packets from hnotrust
+        rule6 = of.ofp_flow_mod()
+        rule6.priority = 100
+        rule6.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule6.match.dl_type = 0x800  # IPv4 packets
+        rule6.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule6)
+
 
     def s2_setup(self):
-        # put switch 2 rules here
-        pass
+        # Flood packets from h10
+        rule1 = of.ofp_flow_mod()
+        rule1.priority = 100
+        rule1.match.nw_src = IPAddr(IPS["h10"])
+        rule1.match.dl_type = 0x800  # IPv4 packets
+        rule1.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule1)
+        # Flood packets from h20
+        rule2 = of.ofp_flow_mod()
+        rule2.priority = 100
+        rule2.match.nw_src = IPAddr(IPS["h20"])
+        rule2.match.dl_type = 0x800  # IPv4 packets
+        rule2.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule2)
+        # Flood packets from h30
+        rule3 = of.ofp_flow_mod()
+        rule3.priority = 100
+        rule3.match.nw_src = IPAddr(IPS["h30"])
+        rule3.match.dl_type = 0x800  # IPv4 packets
+        rule3.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule3)
+        # Flood packets from serv1
+        rule4 = of.ofp_flow_mod()
+        rule4.priority = 100
+        rule4.match.nw_src = IPAddr(IPS["serv1"])
+        rule4.match.dl_type = 0x800  # IPv4 packets
+        rule4.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule4)
+        # Drop ICMP packets from hnotrust
+        rule5 = of.ofp_flow_mod()
+        rule5.priority = 200
+        rule5.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule5.match.dl_type = 0x800  # IPv4 packets
+        rule5.match.nw_proto = 1  # ICMP protocol
+        # No actions = drop
+        self.connection.send(rule5)
+        # Allow other packets from hnotrust
+        rule6 = of.ofp_flow_mod()
+        rule6.priority = 100
+        rule6.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule6.match.dl_type = 0x800  # IPv4 packets
+        rule6.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule6)
 
     def s3_setup(self):
-        # put switch 3 rules here
-        pass
+        # Flood packets from h10
+        rule1 = of.ofp_flow_mod()
+        rule1.priority = 100
+        rule1.match.nw_src = IPAddr(IPS["h10"])
+        rule1.match.dl_type = 0x800  # IPv4 packets
+        rule1.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule1)
+        # Flood packets from h20
+        rule2 = of.ofp_flow_mod()
+        rule2.priority = 100
+        rule2.match.nw_src = IPAddr(IPS["h20"])
+        rule2.match.dl_type = 0x800  # IPv4 packets
+        rule2.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule2)
+        # Flood packets from h30
+        rule3 = of.ofp_flow_mod()
+        rule3.priority = 100
+        rule3.match.nw_src = IPAddr(IPS["h30"])
+        rule3.match.dl_type = 0x800  # IPv4 packets
+        rule3.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule3)
+        # Flood packets from serv1
+        rule4 = of.ofp_flow_mod()
+        rule4.priority = 100
+        rule4.match.nw_src = IPAddr(IPS["serv1"])
+        rule4.match.dl_type = 0x800  # IPv4 packets
+        rule4.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule4)
+        # Drop ICMP packets from hnotrust
+        rule5 = of.ofp_flow_mod()
+        rule5.priority = 200
+        rule5.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule5.match.dl_type = 0x800  # IPv4 packets
+        rule5.match.nw_proto = 1  # ICMP protocol
+        # No actions = drop
+        self.connection.send(rule5)
+        # Allow other packets from hnotrust
+        rule6 = of.ofp_flow_mod()
+        rule6.priority = 100
+        rule6.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule6.match.dl_type = 0x800  # IPv4 packets
+        rule6.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule6)
 
     def cores21_setup(self):
-        # put core switch rules here
-        pass
+        # Route packets to h10
+        rule1 = of.ofp_flow_mod()
+        rule1.priority = 100
+        rule1.match.nw_dst = SUBNETS["h10"]
+        rule1.match.dl_type = 0x800  # IPv4 packets
+        rule1.actions.append(of.ofp_action_output(port=1))
+        self.connection.send(rule1)
+        # Route packets to h20
+        rule2 = of.ofp_flow_mod()
+        rule2.priority = 100
+        rule2.match.nw_dst = SUBNETS["h20"]
+        rule2.match.dl_type = 0x800  # IPv4 packets
+        rule2.actions.append(of.ofp_action_output(port=2))
+        self.connection.send(rule2)
+        # Route packets to h30
+        rule3 = of.ofp_flow_mod()
+        rule3.priority = 100
+        rule3.match.nw_dst = SUBNETS["h30"]
+        rule3.match.dl_type = 0x800  # IPv4 packets
+        rule3.actions.append(of.ofp_action_output(port=3))
+        self.connection.send(rule3)
+        # Route packets to serv1
+        rule4 = of.ofp_flow_mod()
+        rule4.priority = 100
+        rule4.match.nw_dst = SUBNETS["serv1"]
+        rule4.match.dl_type = 0x800  # IPv4 packets
+        rule4.actions.append(of.ofp_action_output(port=4))
+        self.connection.send(rule4)
+        # Route packets to hnotrust
+        rule5 = of.ofp_flow_mod()
+        rule5.priority = 100
+        rule5.match.nw_dst = SUBNETS["hnotrust"]
+        rule5.match.dl_type = 0x800  # IPv4 packets
+        rule5.actions.append(of.ofp_action_output(port=5))
+        self.connection.send(rule5)
 
     def dcs31_setup(self):
-        # put datacenter switch rules here
-        pass
+        # Flood packets from h10
+        rule1 = of.ofp_flow_mod()
+        rule1.priority = 100
+        rule1.match.nw_src = IPAddr(IPS["h10"])
+        rule1.match.dl_type = 0x800  # IPv4 packets
+        rule1.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule1)
+        # Flood packets from h20
+        rule2 = of.ofp_flow_mod()
+        rule2.priority = 100
+        rule2.match.nw_src = IPAddr(IPS["h20"])
+        rule2.match.dl_type = 0x800  # IPv4 packets
+        rule2.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule2)
+        # Flood packets from h30
+        rule3 = of.ofp_flow_mod()
+        rule3.priority = 100
+        rule3.match.nw_src = IPAddr(IPS["h30"])
+        rule3.match.dl_type = 0x800  # IPv4 packets
+        rule3.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule3)
+        # Flood packets from serv1
+        rule4 = of.ofp_flow_mod()
+        rule4.priority = 100
+        rule4.match.nw_src = IPAddr(IPS["serv1"])
+        rule4.match.dl_type = 0x800  # IPv4 packets
+        rule4.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule4)
+        # Block all packets from hnotrust
+        rule5 = of.ofp_flow_mod()
+        rule5.priority = 200
+        rule5.match.nw_src = IPAddr(IPS["hnotrust"])
+        rule5.match.dl_type = 0x800  # IPv4 packets
+        # No actions = drop
+        self.connection.send(rule5)
 
     # used in part 4 to handle individual ARP packets
     # not needed for part 3 (USE RULES!)
