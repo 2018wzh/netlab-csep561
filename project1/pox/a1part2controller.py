@@ -26,6 +26,30 @@ class Firewall(object):
         # TODO
         # add switch rules here
 
+        # Rule1: anyv4,anyv4,icmp,accept
+        rule1 = of.ofp_flow_mod()
+        rule1.priority = 100
+        rule1.match.dl_type = 0x800  # IPv4 packets
+        rule1.match.nw_proto = 1  # ICMP protocol
+        rule1.actions.append(of.ofp_action_output(port=of.OFPP_NORMAL))
+        self.connection.send(rule1)
+
+        # Rule2: any,any,arp,accept
+        rule2 = of.ofp_flow_mod()
+        rule2.priority = 90
+        rule2.match.dl_type = 0x806  # ARP packets
+        rule2.actions.append(of.ofp_action_output(port=of.OFPP_NORMAL))
+        self.connection.send(rule2)
+
+        # Rule3: anyv4,anyv4,*,drop
+        rule3 = of.ofp_flow_mod()
+        rule3.priority = 80
+        rule3.match.dl_type = 0x800  # IPv4 packets
+        # No actions = drop
+        self.connection.send(rule3)
+
+
+
     def _handle_PacketIn(self, event):
         """
         Packets not handled by the router rules will be
