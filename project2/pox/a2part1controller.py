@@ -67,6 +67,14 @@ class Part3Controller(object):
         rule.match.dl_type = 0x800  # IPv4 packets
         rule.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
         self.connection.send(rule)
+        # Block ICMP packets from hnotrust to any other subnet
+        rule = of.ofp_flow_mod()
+        rule.match.dl_type = 0x0800  # IP packets
+        rule.match.nw_proto = 1  # ICMP protocol
+        rule.match.nw_src = SUBNETS["hnotrust"]
+        rule.priority = 200  # Higher priority
+        # No actions means drop the packet
+        self.connection.send(rule)
 
 
     def s2_setup(self):
@@ -76,6 +84,14 @@ class Part3Controller(object):
         rule.match.dl_type = 0x800  # IPv4 packets
         rule.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
         self.connection.send(rule)
+        # Block ICMP packets from hnotrust to any other subnet
+        rule = of.ofp_flow_mod()
+        rule.match.dl_type = 0x0800  # IP packets
+        rule.match.nw_proto = 1  # ICMP protocol
+        rule.match.nw_src = SUBNETS["hnotrust"]
+        rule.priority = 200  # Higher priority
+        # No actions means drop the packet
+        self.connection.send(rule)
 
     def s3_setup(self):
         # Flood all packets
@@ -83,6 +99,14 @@ class Part3Controller(object):
         rule.priority = 100
         rule.match.dl_type = 0x800  # IPv4 packets
         rule.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule)
+        # Block ICMP packets from hnotrust to any other subnet
+        rule = of.ofp_flow_mod()
+        rule.match.dl_type = 0x0800  # IP packets
+        rule.match.nw_proto = 1  # ICMP protocol
+        rule.match.nw_src = SUBNETS["hnotrust"]
+        rule.priority = 200  # Higher priority
+        # No actions means drop the packet
         self.connection.send(rule)
 
     def cores21_setup(self):
@@ -121,22 +145,6 @@ class Part3Controller(object):
         rule5.match.dl_type = 0x800  # IPv4 packets
         rule5.actions.append(of.ofp_action_output(port=5))
         self.connection.send(rule5)
-        # Block all packets from hnotrust to serv1
-        rule6 = of.ofp_flow_mod()
-        rule6.match.nw_src = SUBNETS["hnotrust"]
-        rule6.match.nw_dst = SUBNETS["serv1"]
-        rule6.match.dl_type = 0x800  # IPv4 packets
-        rule6.priority = 200  # Higher priority
-        # No actions means drop the packet
-        self.connection.send(rule6)
-        # Block ICMP packets from hnotrust to any other subnet
-        rule7 = of.ofp_flow_mod()
-        rule7.match.dl_type = 0x0800  # IP packets
-        rule7.match.nw_proto = 1  # ICMP protocol
-        rule7.match.nw_src = SUBNETS["hnotrust"]
-        rule7.priority = 200  # Higher priority
-        # No actions means drop the packet
-        self.connection.send(rule7)
 
     def dcs31_setup(self):
         # Flood all packets
@@ -144,6 +152,13 @@ class Part3Controller(object):
         rule.priority = 100
         rule.match.dl_type = 0x800  # IPv4 packets
         rule.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+        self.connection.send(rule)
+        # Block all packets from hnotrust
+        rule = of.ofp_flow_mod()
+        rule.match.nw_src = SUBNETS["hnotrust"]
+        rule.match.dl_type = 0x800  # IPv4 packets
+        rule.priority = 200  # Higher priority
+        # No actions means drop the packet
         self.connection.send(rule)
 
     # used in part 4 to handle individual ARP packets
